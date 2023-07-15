@@ -6,11 +6,16 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/Ag
 contract FundMe {
     uint256 private constant MINIMUM_USD = 5e18;
 
+    mapping(address => uint256) fundersToAmountFunded;
+    address[] funders;
+
     function fund() public payable {
         require(
             getConversionRate(msg.value) >= MINIMUM_USD,
             "You need to spend more ETH!"
         );
+        fundersToAmountFunded[msg.sender] += msg.value;
+        funders.push(msg.sender);
     }
 
     function getVersion() public view returns (uint256) {
