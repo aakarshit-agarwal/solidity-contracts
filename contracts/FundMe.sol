@@ -7,7 +7,10 @@ contract FundMe {
     uint256 private constant MINIMUM_USD = 5e18;
 
     function fund() public payable {
-        require(msg.value >= MINIMUM_USD, "You need to spend more ETH!");
+        require(
+            getConversionRate(msg.value) >= MINIMUM_USD,
+            "You need to spend more ETH!"
+        );
     }
 
     function getVersion() public view returns (uint256) {
